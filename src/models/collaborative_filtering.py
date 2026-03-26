@@ -1,7 +1,7 @@
 """
 Collaborative-Filtering Recommender  –  Non-negative Matrix Factorisation (NMF).
 
-Methodology (PhD-level rationale)
+Methodology
 ----------------------------------
 The gene × disease co-occurrence matrix **M** is factorised as M ≈ W · H
 where:

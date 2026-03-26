@@ -32,7 +32,7 @@ export default function App() {
         >
           ShivaniPimparkar111
         </a>
-        &nbsp;· NCBI ClinVar Data · PhD-level Recommender System
+        &nbsp;· NCBI ClinVar Data · Gene–Disease Recommender
       </footer>
     </div>
   )

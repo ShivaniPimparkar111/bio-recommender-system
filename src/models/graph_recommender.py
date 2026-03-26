@@ -1,7 +1,7 @@
 """
 Graph-Based Recommender  –  Bipartite Random Walk with Restart (RWR).
 
-Methodology (PhD-level rationale)
+Methodology
 ----------------------------------
 Gene–disease associations naturally form a *bipartite graph* G = (V_g ∪ V_d, E)
 where edges represent curated associations.  Random Walk with Restart (RWR)

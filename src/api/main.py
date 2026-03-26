@@ -72,7 +72,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
 app = FastAPI(
     title="Gene–Disease Recommender API",
     description=(
-        "A PhD-level biology recommender system combining TF-IDF content-based "
+        "A biology recommender system combining TF-IDF content-based "
         "filtering, NMF matrix factorisation, and bipartite Random Walk with "
         "Restart over a curated NCBI ClinVar gene–disease knowledge graph."
     ),

@@ -52,7 +52,7 @@ export default function Home() {
                      bg-brand-900/50 border border-brand-800 text-brand-400 text-sm mb-2"
         >
           <Sparkles size={14} />
-          PhD-Level Computational Biology
+          Computational Biology
         </motion.div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">

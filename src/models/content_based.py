@@ -1,7 +1,7 @@
 """
 Content-Based Recommender  –  TF-IDF + Cosine Similarity.
 
-Methodology (PhD-level rationale)
+Methodology
 ----------------------------------
 Each gene is represented as a *document* whose *words* are the diseases it is
 associated with (and vice-versa for diseases).  TF-IDF weighting de-emphasises

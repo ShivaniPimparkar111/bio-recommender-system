@@ -1,5 +1,5 @@
 """
-GeneDiseaseRecommender – a PhD-level computational biology recommender system.
+GeneDiseaseRecommender – a computational biology recommender system.
 
 Modules
 -------

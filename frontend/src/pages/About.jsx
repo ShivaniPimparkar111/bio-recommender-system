@@ -5,7 +5,7 @@ const section = (title, icon, content, delay = 0) => ({ title, icon, content, de
 
 const sections = [
   section('Project Overview', Dna,
-    `GeneDiseaseAI is a PhD-level computational biology recommender system that
+    `GeneDiseaseAI is a computational biology recommender system that
     predicts gene–disease associations using three complementary algorithms combined
     via Reciprocal Rank Fusion (RRF). It is built on top of the freely available
     NCBI ClinVar gene_condition_source_id dataset.`, 0),

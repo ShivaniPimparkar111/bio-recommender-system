@@ -9,7 +9,7 @@ const api = axios.create({
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
 export const getStats = () =>
-  api.get('/stats', { baseURL: BASE }).then(r => r.data)    // hits /stats not /api/v1/stats
+  api.get('/stats').then(r => r.data)
 
 // ── Genes ─────────────────────────────────────────────────────────────────────
 export const listGenes = (page = 1, pageSize = 50, search = '') =>

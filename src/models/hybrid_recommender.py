@@ -1,7 +1,7 @@
 """
 Hybrid Recommender  –  Reciprocal Rank Fusion (RRF) Ensemble.
 
-Methodology (PhD-level rationale)
+Methodology
 ----------------------------------
 No single recommender dominates across all query types and data regimes.
 We combine Content-Based, Matrix Factorisation, and Graph-RWR models via
