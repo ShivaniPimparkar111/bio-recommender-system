@@ -81,19 +81,6 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # ── 5. Remove duplicates ─────────────────────────────────────────────────
     df = df.drop_duplicates()
 
-    # ── 6. Drop diseases with only one known gene ────────────────────────────
-    # Single-gene diseases have no disease "profile" for similarity ranking and
-    # make the graph 10x larger, causing RWR queries to time out.
-    disease_gene_counts = df.groupby("disease")["gene"].nunique()
-    multi_gene_diseases = disease_gene_counts[disease_gene_counts >= 2].index
-    before = len(df)
-    df = df[df["disease"].isin(multi_gene_diseases)]
-    logger.info(
-        "clean_data: dropped %d single-gene-disease rows (%d diseases removed)",
-        before - len(df),
-        disease_gene_counts[disease_gene_counts < 2].shape[0],
-    )
-
     logger.info(
         "clean_data: %d → %d rows  (removed %d)",
         original_len, len(df), original_len - len(df),

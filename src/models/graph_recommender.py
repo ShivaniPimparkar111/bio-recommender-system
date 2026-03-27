@@ -99,7 +99,8 @@ class GraphRecommender(BaseRecommender):
         )
         self._graph = G
 
-        # Build row-normalised adjacency for RWR
+        # Build row-normalised adjacency for RWR — keep as sparse CSR matrix.
+        # Dense conversion would be (n×n) × 4 bytes which is huge for large graphs.
         n = len(all_nodes)
         rows, cols = [], []
         for u, v in G.edges():
@@ -107,12 +108,14 @@ class GraphRecommender(BaseRecommender):
             rows += [i, j]
             cols += [j, i]
         data = np.ones(len(rows), dtype=np.float32)
-        A = csr_matrix((data, (rows, cols)), shape=(n, n)).toarray()
+        A = csr_matrix((data, (rows, cols)), shape=(n, n), dtype=np.float32)
 
-        # Row-normalise
-        row_sums = A.sum(axis=1, keepdims=True)
+        # Row-normalise (sparse-safe)
+        row_sums = np.asarray(A.sum(axis=1)).flatten()
         row_sums[row_sums == 0] = 1.0
-        self._A = A / row_sums
+        from scipy.sparse import diags
+        D_inv = diags(1.0 / row_sums)
+        self._A = (D_inv @ A).tocsr()
 
         self._fitted = True
         logger.info(
@@ -124,16 +127,21 @@ class GraphRecommender(BaseRecommender):
     # ── Core RWR ─────────────────────────────────────────────────────────────
 
     def _rwr(self, seed_node: str) -> np.ndarray:
-        """Run RWR from *seed_node*; return stationary probability vector."""
+        """Run RWR from *seed_node*; return stationary probability vector.
+
+        Uses sparse matrix–vector multiplication so performance scales with
+        the number of edges (not n²) regardless of graph size.
+        """
         n = self._A.shape[0]
         s = self._node_idx[seed_node]
 
-        e_s = np.zeros(n, dtype=np.float64)
+        e_s = np.zeros(n, dtype=np.float32)
         e_s[s] = 1.0
 
-        p = e_s.copy()
+        AT = self._A.T   # transpose once; reuse across iterations
+        p  = e_s.copy()
         for _ in range(self._max_iter):
-            p_new = (1 - self._alpha) * self._A.T @ p + self._alpha * e_s
+            p_new = (1 - self._alpha) * AT.dot(p) + self._alpha * e_s
             if np.linalg.norm(p_new - p, 1) < self._tol:
                 break
             p = p_new

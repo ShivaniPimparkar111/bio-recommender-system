@@ -142,8 +142,18 @@ def _resolve_disease(request: Request, raw: str) -> str:
     if titled in diseases:
         return titled
 
-    # 4. Suggest close matches
-    suggestions = difflib.get_close_matches(titled, diseases, n=5, cutoff=0.5)
+    # 4. Word-token partial match — find diseases sharing at least one word
+    #    e.g. "Breast Cancer" → matches "Breast Neoplasm", "Malignant Tumor Of Breast"
+    query_words = {w for w in key.split() if len(w) > 2}
+    token_matches = [
+        d for d in diseases
+        if any(w in d.lower() for w in query_words)
+    ][:5]
+
+    # 5. Difflib character-level suggestions as fallback
+    char_matches = difflib.get_close_matches(titled, diseases, n=5, cutoff=0.4)
+
+    suggestions = token_matches or char_matches
     detail = f"Disease '{normalised}' not found."
     if suggestions:
         detail += f" Did you mean: {', '.join(suggestions)}?"
