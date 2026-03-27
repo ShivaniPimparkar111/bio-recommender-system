@@ -130,18 +130,22 @@ def load_raw_data(raw_dir: str = "data/raw") -> pd.DataFrame:
     except Exception as exc:  # noqa: BLE001
         logger.warning("ClinVar failed (%s).", exc)
 
-    # ── 2. GWAS Catalog ──────────────────────────────────────────────────────
-    gwas_path = os.path.join(raw_dir, "gwas_catalog_associations.tsv")
-    gwas_zip  = os.path.join(raw_dir, "gwas_catalog_associations.zip")
-    try:
-        if not os.path.exists(gwas_path):
-            _http_get(GWAS_CATALOG_URL, gwas_zip)
-            _extract_gwas_zip(gwas_zip, gwas_path)
-        df_gwas = _parse_gwas_catalog(gwas_path)
-        logger.info("GWAS Catalog: %d raw rows", len(df_gwas))
-        frames.append(df_gwas)
-    except Exception as exc:  # noqa: BLE001
-        logger.warning("GWAS Catalog failed (%s). Skipping.", exc)
+    # ── 2. GWAS Catalog (disabled) ───────────────────────────────────────────
+    # GWAS Catalog adds 1M+ rows of GWAS traits (e.g. "Height", "BMI") which
+    # are not clinical disease conditions and bloat the model to unusable size.
+    # Re-enable by removing the `if False` guard when you want GWAS traits.
+    if False:  # noqa: SIM210
+        gwas_path = os.path.join(raw_dir, "gwas_catalog_associations.tsv")
+        gwas_zip  = os.path.join(raw_dir, "gwas_catalog_associations.zip")
+        try:
+            if not os.path.exists(gwas_path):
+                _http_get(GWAS_CATALOG_URL, gwas_zip)
+                _extract_gwas_zip(gwas_zip, gwas_path)
+            df_gwas = _parse_gwas_catalog(gwas_path)
+            logger.info("GWAS Catalog: %d raw rows", len(df_gwas))
+            frames.append(df_gwas)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("GWAS Catalog failed (%s). Skipping.", exc)
 
     # ── 3. HPO fallback (only if nothing else loaded) ────────────────────────
     if not frames:
