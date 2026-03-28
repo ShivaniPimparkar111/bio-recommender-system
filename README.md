@@ -3,7 +3,6 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green.svg)](https://fastapi.tiangolo.com)
 [![React 18](https://img.shields.io/badge/React-18-61DAFB.svg)](https://reactjs.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > A computational biology recommender system for predicting gene–disease
 > associations using TF-IDF content-based filtering, NMF matrix factorisation, and
@@ -33,10 +32,10 @@ npm run dev          # opens http://localhost:5173
 
 ## Data Source
 
-| Source | URL | License |
-|--------|-----|---------|
-| NCBI ClinVar `gene_condition_source_id` | https://ftp.ncbi.nlm.nih.gov/pub/clinvar/gene_condition_source_id | Public domain |
-| HPO `genes_to_disease.txt` (fallback) | https://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt | CC BY 4.0 |
+| Source | URL |
+|--------|-----|
+| NCBI ClinVar `gene_condition_source_id` | https://ftp.ncbi.nlm.nih.gov/pub/clinvar/gene_condition_source_id |
+| HPO `genes_to_disease.txt` (fallback) | https://purl.obolibrary.org/obo/hp/hpoa/genes_to_disease.txt |
 
 Both sources are **freely available** and **require no registration**.
 
